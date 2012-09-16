@@ -9,11 +9,24 @@ EventMachine.run do
   queue_in    = CHANNEL.queue("reader2.2", :auto_delete => false).bind(reader2_exchange)
   queue_out    = CHANNEL.queue("subscriber2", :auto_delete => false)
 
-  EXCHANGE = CHANNEL.direct("")
+  EXCHANGE = CHANNEL.topic("subscriber2.exchange")
 
   queue_in.subscribe(:ack => true) do |metadata, payload|
-    puts payload.inspect
-    EXCHANGE.publish(payload, :key => "subscriber2")
+    #puts payload.inspect
+    
+    index = payload.gsub(/[^\d]+/,"").to_i
+    
+    if index % 100 == 0
+      rk = "divide.by100"
+    elsif index % 10 == 0
+      rk = "divide.by10"
+    else
+      rk = "divide.by1"
+    end
+    
+    puts rk.inspect
+    
+    EXCHANGE.publish(payload, :routing_key => rk)
     CHANNEL.acknowledge(metadata.delivery_tag, false)
   end
 
