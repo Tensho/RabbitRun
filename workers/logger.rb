@@ -15,7 +15,7 @@ EventMachine.run do
     data = JSON.parse(payload)
     #This is a Direct Exchange so any consumers must have an exact match to the routing_key 
     #(In this case HIGH, MEDIUM or LOW)
-    puts data['severity']
+    (1..rand(100000)).each{}
     EXCHANGE_OUT.publish(payload, routing_key: data['severity']) #publishing to the split queue
     CHANNEL.acknowledge(metadata.delivery_tag, false)
   end

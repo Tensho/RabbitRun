@@ -11,7 +11,7 @@ The system is very simple to run. Just install and start RabbitMQ from homebrew,
 
     bundle exec ruby run.rb
     
-The application can be [monitored in your browser](http://localhost:15672)
+The application can be [monitored in your browser](http://localhost:15672) (don't use Safari!!!)
 
 ![rabbit run diagram](https://github.com/stevecreedon/RabbitRun/blob/master/RabbitRun.png)
 

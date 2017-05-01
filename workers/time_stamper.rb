@@ -15,6 +15,8 @@ EventMachine.run do
   queue_in.subscribe(:ack => true) do |metadata, payload|
     data = JSON.parse(payload)
     data[:timestamp] = Time.now.to_i
+    (1..rand(100000)).each{}
+    puts data.inspect
     EXCHANGE_OUT.publish(JSON.generate(data))
     CHANNEL.acknowledge(metadata.delivery_tag, false)
   end

@@ -17,8 +17,9 @@ masters.each do |master|
   end
 end
 
-puts "1. The system amqp workers have started (each process is called RabbitRun), browse to http://localhost:15672 and take a look at the connections and queues that have been created\n\n"
-puts "2. In the next stage we run a publisher that publishes 5000 messages to the workers. We use Faker to randomly send either an email, name or phone number\n\n"
+puts
+puts "1. The system amqp workers have started (each process is called RabbitRun), browse to http://localhost:15672 and take a look at the connections, exchanges and queues that have been created. On the exchanges tab click on the filter.exchange and logger.exchange and take a not of the queues bound to those exchanges \n\n"
+puts "2. In the next stage we run 'publisher.rb' that publishes messages to the Timestamp worker using bunny. Publisher uses Faker to randomly send a hash of data containing country: US, UK, UA; type: mail, name or phone number; severity: LOW MEDIUM HIGH\n\n"
 puts "3. Make sure you have the queues tab open, when messages are being published you will be able to see the messages being processed by the workers. When the messages have stopped publishing you will be able to close the workers down from this console.\n\n"
 puts "4. Hit <RETURN> to start publishing messages to RabbitMQ\n\n"
 gets.chomp
@@ -27,11 +28,10 @@ puts "connecting to RabbitMQ, please wait a few seconds."
 
 require 'publisher'
 
-puts "5. When the workers have finished you will see five text files in /tmp/rabbitmq/"
-puts "5.1 emails.txt, names.txt, phone_numbers.txt has been created by subscriber2 routing to topic1, topic2 and topic3 workers appropriatley"
-puts "5.2 workers1.txt and workers2.txt should have the same number of messages but split so that no message appears in both txt files"
+puts "5. When the workers have finished (no more activity in the Queues tab) you will see the output  in /tmp/rabbitmq/"
 
 puts "Return to stop these processes"
+puts "NOTE: if something goes wrong you can use `pkill RabbitRun` to kill any worker processes"
 gets.chomp
 
 tasks.each do |task|

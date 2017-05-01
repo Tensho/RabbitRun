@@ -18,7 +18,7 @@ EventMachine.run do
     routing_key = "#{data['country']}.#{data['type']}.#{data['severity']}"
     #This is a topic exchange so routing_keys must be dot separated and wild cards can be used by consumers
     #e.g. UK.email.LOW
-    puts routing_key.inspect
+    (1..rand(100000)).each{}
     EXCHANGE.publish(payload, :routing_key => routing_key)
     CHANNEL.acknowledge(metadata.delivery_tag, false)
   end
